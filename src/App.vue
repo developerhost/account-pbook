@@ -1,13 +1,26 @@
 <template>
   <div id="app">
     <div id="nav">
-      <h2>裏垢図鑑</h2>
+      <h2>Twitterアカウント図鑑</h2>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <Register></Register>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+
+import Register from '@/components/Register.vue'
+
+
+export default {
+  components: {
+    Register
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
