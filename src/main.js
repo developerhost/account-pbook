@@ -3,8 +3,12 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import router from './router'
 import firebase from 'firebase'
+import axios from 'axios' //追記
+import VueAxios from 'vue-axios' //追記
 
 Vue.config.productionTip = false
+
+Vue.use(VueAxios, axios) //追記
 
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
