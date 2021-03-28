@@ -7,7 +7,7 @@ var client = new Twitter({
   access_token_secret: 'yaVQONBHtTUdQh9cK89dEeN8gNifQc538UW97cOKWtA8V'
 });
 
-var params = {screen_name: 'nodejs'};
+var params = {screen_name: 'sikaotokoawo'};
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
   if (!error) {
     console.log(tweets);
