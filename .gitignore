@@ -23,4 +23,6 @@ pnpm-debug.log*
 *.sw?
 
 # 表示しない
-main.js
+api.js
+node-twitter.js
+app.env

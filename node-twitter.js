@@ -1,16 +1,22 @@
-var Twitter = require('twitter');
+const request = require("request");
 
-var client = new Twitter({
-  consumer_key: 'FahZjs4X8G6qEAfyHXH59sEW1',
-  cunsumer_secret: 'q5tXdwWHXwenpB2aPZm4DRlpacJlFZmLl2jV7adntZcvVUESnu',
-  access_token_key: '1056207757315993600-kUC9UlrRPUxyQcRzGbSOl3oiI4FXfw',
-  access_token_secret: 'yaVQONBHtTUdQh9cK89dEeN8gNifQc538UW97cOKWtA8V'
-});
+var URL = "https://api.twitter.com/1.1/users/show.json";
 
-var params = {screen_name: 'sikaotokoawo'};
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  if (!error) {
-    console.log(tweets);
-    
+request.get(
+  {
+    uri: URL,
+    headers: {
+      "Content-type": "application/json",
+      Authorization:
+        "Bearer AAAAAAAAAAAAAAAAAAAAAOAtOAEAAAAASgAspot9JypeUtd53mMZOO4%2F7KY%3D4tL8qdCCdO4bJIUOCNz1nICYbigdAV9rGdDFAZjpCrCiMsdUEF",
+    },
+    qs: {
+      screen_name: "sikaotokoawo",
+      // ?hoge=hugaの部分
+    },
+    json: true,
+  },
+  function (err, req, data) {
+    console.log(data.name);
   }
-});
+);
