@@ -13,7 +13,7 @@ exports.helloOnCall = functions.https.onRequest((req, res) => {
 
   const URL = "https://api.twitter.com/1.1/users/show.json";
 
-  request.get({
+  const resRequest = request.get({
     uri: URL,
     headers: {
       "Content-type": "application/json",
@@ -26,23 +26,23 @@ exports.helloOnCall = functions.https.onRequest((req, res) => {
       screen_name: "sikaotokoawo",
     },
     json: true,
-  },
-  function(error, req, data) {
-    if (!error) {
-      console.log(data.name);
-    } else {
-      console.log(error);
-    }
   }
+  // function(error, req, data) {
+  //   if (!error) {
+  //     console.log(data.name);
+  //   } else {
+  //     console.log(error);
+  //   }
+  // }
   );
 
-  // const resJson = res.getBody("utf-8");
+  const resJson = resRequest.getBody("utf-8");
 
-  // const obj = JSON.parse(resJson); // オブジェクトをJSONとして文字列として出力
-  // // parse=JSON形式の文字列を文字列として置き換える
+  const obj = JSON.parse(resJson); // オブジェクトをJSONとして文字列として出力
+  // parse=JSON形式の文字列を文字列として置き換える
 
-  // const returnRes = {
-  //   name: obj.data.name,
-  // };
-  // return returnRes;
+  const returnRes = {
+    allData: obj.data,
+  };
+  return returnRes;
 });

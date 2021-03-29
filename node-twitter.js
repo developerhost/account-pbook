@@ -17,6 +17,6 @@ request.get(
     json: true,
   },
   function (err, req, data) {
-    console.log(data.name);
+    console.log(data);
   }
 );
