@@ -13,7 +13,7 @@ exports.helloOnCall = functions.https.onRequest((req, res) => {
 
   const URL = "https://api.twitter.com/1.1/users/show.json";
 
-  const resRequest = request.get({
+  const resRecuest = request.get({
     uri: URL,
     headers: {
       "Content-type": "application/json",
@@ -26,23 +26,42 @@ exports.helloOnCall = functions.https.onRequest((req, res) => {
       screen_name: "sikaotokoawo",
     },
     json: true,
+  },
+
+  // const getData = {
+  //   name: data.name,
+  //   id: data.screen_name,
+  //   description: data.description,
+  //   followers_count: data.followers_count,
+  //   friends_count: data.friends_count,
+  //   statuses_count: data.statuses_count, //ツイート数
+  //   profile_image_url: data.profile_image_url
+  // };
+
+  function(error, req, data) {
+    if (!error) {
+      console.log(
+          "name:", data.name,
+          "id:", data.screen_name,
+          "bio:", data.description,
+          "followers:", data.followers_count,
+          "follow:", data.friends_count,
+          "tweet:", data.statuses_count,
+          "image:", data.profile_image_url
+      );
+    } else {
+      console.log(error);
+    }
   }
-  // function(error, req, data) {
-  //   if (!error) {
-  //     console.log(data.name);
-  //   } else {
-  //     console.log(error);
-  //   }
-  // }
   );
 
-  const resJson = resRequest.getBody("utf-8");
+  // const resJson = resRequest.getBody("utf-8");
 
-  const obj = JSON.parse(resJson); // オブジェクトをJSONとして文字列として出力
-  // parse=JSON形式の文字列を文字列として置き換える
+  // const obj = JSON.parse(resJson); // オブジェクトをJSONとして文字列として出力
+  // // parse=JSON形式の文字列を文字列として置き換える
 
-  const returnRes = {
-    allData: obj.data,
-  };
-  return returnRes;
+  // const returnRes = {
+  //   allData: obj.data,
+  // };
+  // return returnRes;
 });
