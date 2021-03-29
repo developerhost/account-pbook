@@ -1,128 +1,69 @@
 <template>
-  <v-card
-    max-width="400"
-    class="mx-auto"
-  >
+  <div>
+    <v-text-field
+      label="Regular"
+      v-model="newAccountId"
+    ></v-text-field>
+    <v-btn @click="addAccount()">
+      追加
+    </v-btn>
 
-    <v-app-bar
-      dark
-      color="pink"
-    >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>アカウント一覧</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-container>
-      <v-row dense>
-        <v-col cols="12">
-          <v-card
-            color="#385F73"
-            dark
-          >
-            <v-card-title class="headline">
-              アカウント名
-            </v-card-title>
-
-            <v-card-subtitle>Bio</v-card-subtitle>
-
-            <v-card-actions>
-              <v-btn text>
-                コメント
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-
-        <v-col
-          v-for="(item, i) in items"
-          :key="i"
-          cols="12"
-        >
-          <v-card
-            :color="item.color"
-            dark
-          >
-            <div class="d-flex flex-no-wrap justify-space-between">
-              <div>
-                <v-card-title
-                  class="headline"
-                  v-text="item.title"
-                ></v-card-title>
-
-                <v-card-subtitle v-text="item.artist"></v-card-subtitle>
-
-                <v-card-actions>
-                  <v-btn
-                    v-if="item.artist === 'Ellie Goulding'"
-                    class="ml-2 mt-3"
-                    fab
-                    icon
-                    height="40px"
-                    right
-                    width="40px"
-                  >
-                    <v-icon>mdi-play</v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    v-else
-                    class="ml-2 mt-5"
-                    outlined
-                    rounded
-                    small
-                  >
-                    START RADIO
-                  </v-btn>
-                </v-card-actions>
-              </div>
-
-              <v-avatar
-                class="ma-3"
-                size="125"
-                tile
-              >
-                <v-img :src="icon_src"></v-img>
-              </v-avatar>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card>
+    <ul>
+      <!-- key=accountsのIDが入る(dmNzy2QX92wE8fR4t5WG) -->
+      <li v-for="(account, key) in accounts" :key="key">
+        {{ key }}
+        {{ account }}
+        {{ account.id }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import firebase from 'firebase'
 
 export default {
   name: 'Home',
   components: {
-    // HelloWorld
+    
   },
   data: () => ({
-    items: [
-      {
-        color: '#1F7087',
-        src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        title: 'Supermodel',
-        artist: 'Foster the People',
-      },
-      {
-        color: '#952175',
-        src: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-        title: 'Halcyon Days',
-        artist: 'Ellie Goulding',
-      },
-    ],
-  icon_src: require("../assets/img/84540173.png"),
-    }),
+    db: null,
+    accountsRef: null,
+    newAccountId: "",
+    accounts: {} //firebaseから帰ってくるアカウント情報
+  }),
+  created(){
+    this.db = firebase.firestore()
+    this.accountsRef = this.db.collection('accounts')
+
+    //イベントリスナーの登録
+    this.accountsRef.onSnapshot(querySnapshot => {
+      const obj = {}
+      //querySnapshot=現在の全てのデータ
+        querySnapshot.forEach(doc => {
+          // doc.id = firebase acccountのID(dmNzy2QX92wE8fR4t5WG)
+          // doc.data() = 実際の中身(id:sikaotokoawo)
+          obj[doc.id] = doc.data() //これをaccountsに入れる
+        })
+        this.accounts = obj
+    })
+  },
+  
+  methods: {
+    addAccount(){
+      if(this.newAccountId === ''){
+        alert("IDを入力してください");
+      }else{
+        var searchAccount = firebase.functions().httpsCallable("helloOnCall");
+        searchAccount(this.newAccountId).then((res) => {
+          this.accountsRef.add({
+            id: this.newAccountId,
+            name: res.data.name
+          })
+        })
+      }
+    }
   }
+}
 </script>

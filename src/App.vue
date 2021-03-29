@@ -4,7 +4,6 @@
       <h2>Twitterアカウント図鑑</h2>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-      <Register></Register>
     </div>
     <router-view/>
   </div>
@@ -12,12 +11,12 @@
 
 <script>
 
-import Register from '@/components/Register.vue'
+// import Register from '@/components/Register.vue'
 
 
 export default {
   components: {
-    Register
+    // Register
   }
 }
 </script>
