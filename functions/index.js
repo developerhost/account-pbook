@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+// import firebase from 'firebase'
 const functions = require("firebase-functions");
 
 // // Create and Deploy Your First Cloud Functions
@@ -24,7 +24,7 @@ exports.helloOnCall = functions.https.onRequest((req, res) => {
   //   profile_image_url: data.profile_image_url
   // };
 
-  const resRecuest = request.get({
+  request.get({
     uri: URL,
     headers: {
       "Content-type": "application/json",
@@ -40,16 +40,17 @@ exports.helloOnCall = functions.https.onRequest((req, res) => {
   },
 
   function(error, req, data) {
-    const db = firebase.firestore(); // database
+    const db = this.firebase.firestore(); // database
     const accountsRef = db.collection("accounts"); // accountsコレクションへの参照取得
-    const searchAccount = firebase.functions().httpsCallable("helloOnCall");
+    // eslint-disable-next-line max-len
+    const searchAccount = this.firebase.functions().httpsCallable("helloOnCall");
 
     searchAccount(this.newAccountId).then((res) => {
       accountsRef.add({
         id: this.newAccountId,
-        name: req
-      })
-    })
+        name: req.data.name,
+      });
+    });
 
     if (!error) {
       console.log(
