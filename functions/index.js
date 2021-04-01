@@ -1,4 +1,4 @@
-// import firebase from 'firebase'
+const firebase = require("firebase");
 const functions = require("firebase-functions");
 
 // // Create and Deploy Your First Cloud Functions
@@ -40,10 +40,10 @@ exports.helloOnCall = functions.https.onRequest((req, res) => {
   },
 
   function(error, req, data) {
-    const db = this.firebase.firestore(); // database
+    const db = firebase.firestore(); // database
     const accountsRef = db.collection("accounts"); // accountsコレクションへの参照取得
     // eslint-disable-next-line max-len
-    const searchAccount = this.firebase.functions().httpsCallable("helloOnCall");
+    const searchAccount = firebase.functions().httpsCallable("helloOnCall");
 
     searchAccount(this.newAccountId).then((res) => {
       accountsRef.add({
