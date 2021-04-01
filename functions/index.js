@@ -1,7 +1,7 @@
 // const firebase = require("firebase");
 const functions = require("firebase-functions");
 
-exports.helloOnCall = functions.https.onzzCall((data, context) => {
+exports.helloOnCall = functions.https.onCall((data, context) => {
   const request = require("request");
 
   const URL = "https://api.twitter.com/1.1/users/show.json";
@@ -21,9 +21,12 @@ exports.helloOnCall = functions.https.onzzCall((data, context) => {
     json: true,
   },
 
-  function(error, data) {
-    console.log(data);
-    return data;
+  function(error, req, data) {
+    if (!error) {
+      console.log(data.name);
+    } else {
+      console.log(error);
+    }
     // const db = firebase.firestore(); // database
     // const accountsRef = db.collection("accounts"); // accountsコレクションへの参照取得
     // // eslint-disable-next-line max-len
