@@ -55,12 +55,22 @@ export default {
       if(this.newAccountId === ''){
         alert("IDを入力してください");
       }else{
+        console.log("1");
+        // const functions = firebase.functions();
+        // functions.useFunctionsEmulator("http://localhost:5001"); 
+
         var searchAccount = firebase.functions().httpsCallable("helloOnCall");
-        searchAccount(this.newAccountId).then((res) => {
+        console.log("2");
+        
+        searchAccount("AbeShinzo").then((res) => {
+          console.log(res);
+          
           this.accountsRef.add({
-            id: this.newAccountId,
-            name: res.data.name
+            id: "SatoMasahisa",
+            // name: res.name
           })
+        }).catch(e => {
+          console.log(e);
         })
       }
     }

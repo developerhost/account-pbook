@@ -18,7 +18,7 @@ functions.useFunctionsEmulator("http://localhost:5001"); //ローカルでfireba
 
 const main = async () => {
   const helloOnCall = functions.httpsCallable("helloOnCall");
-  const res = await helloOnCall("sikaotokoawo");
+  const res = await helloOnCall("sikaotokoawo"); // ここの中身を変えても結果は変わらない
   console.log(res);
 };
 
